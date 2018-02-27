@@ -12,7 +12,7 @@ namespace StatHat
 {
     public class StatHatClient : IMetricStore
     {
-        private const string endpoint = "http://api.stathat.com/ez";
+        private const string endpoint = "https://api.stathat.com/ez";
 
         private readonly HttpClient httpClient = new HttpClient {
             Timeout = TimeSpan.FromSeconds(2)
