@@ -4,3 +4,4 @@
 *.suo
 /src/StatHat.Tests/obj
 /src/StatHat.Tests/bin
+/src/StatHat/obj
