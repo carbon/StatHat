@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>StatHat</AssemblyName>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <Version>0.13.0</Version>
+    <LangVersion>7.2</LangVersion>
+    
+    <!-- Package Properties-->
+    <Authors>iamcarbon</Authors>
+    <Description>A modern .NETStandard StatHat client.</Description>
+    <PackageTags>metrics;stathat;carbon</PackageTags>
+    <PackageProjectUrl>https://github.com/carbon/StatHat</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/carbon/StatHat/LICENCE</PackageLicenseUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Carbon.Metrics" Version="0.12.0" />
+    <PackageReference Include="System.Text.Encodings.Web" Version="4.4.0" />
+  </ItemGroup>
+
+</Project>

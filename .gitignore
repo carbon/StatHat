@@ -1,0 +1,6 @@
+/release
+/src/.vs
+.DS_Store
+*.suo
+/src/StatHat.Tests/obj
+/src/StatHat.Tests/bin
