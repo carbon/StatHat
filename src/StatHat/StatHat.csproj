@@ -3,20 +3,20 @@
   <PropertyGroup>
     <AssemblyName>StatHat</AssemblyName>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
-    <Version>0.13.0</Version>
-    <LangVersion>7.2</LangVersion>
+    <Version>0.14.0</Version>
+    <LangVersion>7.3</LangVersion>
     
     <!-- Package Properties-->
     <Authors>iamcarbon</Authors>
     <Description>A modern .NETStandard StatHat client.</Description>
     <PackageTags>metrics;stathat;carbon</PackageTags>
     <PackageProjectUrl>https://github.com/carbon/StatHat</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/carbon/StatHat/LICENCE</PackageLicenseUrl>
+    <PackageLicenseUrl>https://github.com/carbon/StatHat/blob/master/LICENCE</PackageLicenseUrl>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Carbon.Metrics" Version="0.12.0" />
-    <PackageReference Include="System.Text.Encodings.Web" Version="4.4.0" />
+    <PackageReference Include="System.Text.Encodings.Web" Version="4.5.0" />
   </ItemGroup>
 
 </Project>
