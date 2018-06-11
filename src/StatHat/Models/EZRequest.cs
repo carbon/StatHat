@@ -21,14 +21,12 @@ namespace StatHat.Models
 
         public override string ToString()
         {
-            var sb = new StringBuilder();
-
-            using (var writer = new StringWriter(sb))
+            using (var writer = new StringWriter())
             {
                 WriteTo(writer);
-            }
 
-            return sb.ToString();
+                return writer.ToString();
+            }
         }
 
         public void WriteTo(TextWriter writer)
@@ -41,7 +39,7 @@ namespace StatHat.Models
             writer.Write(':');
             writer.Write('[');
 
-            var i = 0;
+            int i = 0;
 
             foreach (var stat in Data)
             {
