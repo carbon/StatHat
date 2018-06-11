@@ -40,7 +40,7 @@ namespace StatHat.Tests
         private IEnumerable<EZStat> Stats()
         {
             yield return new EZStat("counter", 1);
-            yield return new EZStat("counter", 1);
+            yield return new EZStat("counter", 2);
         }
     }
 }
