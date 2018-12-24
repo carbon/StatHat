@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-
+using System.Linq;
 using Carbon.Json;
 
 using StatHat.Models;
@@ -32,7 +32,7 @@ namespace StatHat.Tests
         [Fact]
         public void SerializeEnumerable()
         {
-            var a = new EZRequest("a", Stats());
+            var a = new EZRequest("a", Stats().ToArray());
 
             Assert.Equal(@"{""ezkey"":""a"",""data"":[{""stat"":""counter"",""count"":1},{""stat"":""counter"",""count"":2}]}", a.ToString());
         }

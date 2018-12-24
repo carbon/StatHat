@@ -10,7 +10,7 @@ using StatHat.Models;
 
 namespace StatHat
 {
-    public class StatHatClient : IMetricStore
+    public sealed class StatHatClient : IMetricStore
     {
         private const string endpoint = "https://api.stathat.com/ez";
 
@@ -31,17 +31,15 @@ namespace StatHat
         }
 
         public Task PutAsync(params EZStat[] stats)
-        {
-            var request = new EZRequest(key, stats);
-            
-            return SendAsync(request);
+        {            
+            return SendAsync(stats);
         }
 
         public async Task<bool> PutAsync(IEnumerable<Measurement> stats)
         {
             try
             {
-                return await SendAsync(new EZRequest(key, Transform(stats))).ConfigureAwait(false);
+                return await SendAsync(Transform(stats)).ConfigureAwait(false);
             }
             catch
             {
@@ -57,8 +55,10 @@ namespace StatHat
             }
         }
 
-        private async Task<bool> SendAsync(EZRequest ezRequest)
+        private async Task<bool> SendAsync(IEnumerable<EZStat> data)
         {
+            var ezRequest = new EZRequest(key, data);
+
             var request = new HttpRequestMessage(HttpMethod.Post, endpoint) {
                 Content = new StringContent(ezRequest.ToString(), Encoding.UTF8, "application/json")
             };

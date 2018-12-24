@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Buffers.Text;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 
 namespace StatHat.Models
 {
-    public class EZRequest
+    public readonly struct EZRequest
     {
         public EZRequest(string key, IEnumerable<EZStat> data)
         {
@@ -27,7 +29,7 @@ namespace StatHat.Models
                 return writer.ToString();
             }
         }
-
+        
         public void WriteTo(TextWriter writer)
         {
             writer.Write('{');
