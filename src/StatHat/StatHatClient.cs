@@ -66,10 +66,9 @@ namespace StatHat
             // StatHat doesn't reconize the content-type with a character set
             request.Content.Headers.ContentType.CharSet = null;
 
-            using (var response = await httpClient.SendAsync(request).ConfigureAwait(false))
-            {
-                return response.IsSuccessStatusCode;
-            }
+            using var response = await httpClient.SendAsync(request).ConfigureAwait(false);
+
+            return response.IsSuccessStatusCode;
         }
     }
 }
