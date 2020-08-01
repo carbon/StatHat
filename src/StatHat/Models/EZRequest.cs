@@ -20,12 +20,11 @@ namespace StatHat.Models
 
         public override string ToString()
         {
-            using (var writer = new StringWriter())
-            {
-                WriteTo(writer);
+            using var writer = new StringWriter();
 
-                return writer.ToString();
-            }
+            WriteTo(writer);
+
+            return writer.ToString();
         }
         
         public void WriteTo(TextWriter writer)

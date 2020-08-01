@@ -1,1 +1,1 @@
-dotnet pack ./src/StatHat -c Release -o ./../../release/StatHat
+dotnet pack ./src/StatHat -c Release -o ./release/StatHat

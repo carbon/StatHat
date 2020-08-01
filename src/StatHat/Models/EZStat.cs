@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Runtime.Serialization;
+
 using Carbon.Metrics;
 
 namespace StatHat.Models
@@ -15,7 +16,7 @@ namespace StatHat.Models
 
         internal EZStat(Measurement measurement)
         {
-            Name = measurement.Name;
+            Name = measurement.Name!;
 
             if (measurement.Unit == UnitType.Milliseconds ||
                 measurement.Unit == UnitType.Bytes)
@@ -39,7 +40,7 @@ namespace StatHat.Models
         [DataMember(Name = "value", EmitDefaultValue = false)]
         public double Value { get; }
 
-        // TODO: TS
+        // TODO: Timestamp (t)
 
         public void WriteTo(TextWriter writer)
         {
