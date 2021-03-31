@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace StatHat.Models
 {
@@ -12,10 +12,10 @@ namespace StatHat.Models
             Data = data;
         }
 
-        [DataMember(Name = "ezkey", IsRequired = true)]
+        [JsonPropertyName("ezkey")]
         public string Key { get; }
 
-        [DataMember(Name = "data", IsRequired = true)]
+        [JsonPropertyName("data")]
         public IEnumerable<EZStat> Data { get; }
 
         public override string ToString()
@@ -41,7 +41,10 @@ namespace StatHat.Models
 
             foreach (var stat in Data)
             {
-                if (i > 0) writer.Write(',');
+                if (i > 0)
+                {
+                    writer.Write(',');
+                }
 
                 stat.WriteTo(writer);
 

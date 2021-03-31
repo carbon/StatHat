@@ -14,7 +14,7 @@ namespace StatHat.Models
             Value = value;
         }
 
-        internal EZStat(Measurement measurement)
+        internal EZStat(in Measurement measurement)
         {
             Name = measurement.Name!;
 

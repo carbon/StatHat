@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,7 +15,7 @@ namespace StatHat
     {
         private const string endpoint = "https://api.stathat.com/ez";
 
-        private readonly HttpClient httpClient = new HttpClient {
+        private readonly HttpClient httpClient = new () {
             Timeout = TimeSpan.FromSeconds(2)
         };
 
@@ -60,11 +61,11 @@ namespace StatHat
             var ezRequest = new EZRequest(key, data);
 
             var request = new HttpRequestMessage(HttpMethod.Post, endpoint) {
-                Content = new StringContent(ezRequest.ToString(), Encoding.UTF8, "application/json")
+                Content = new StringContent(ezRequest.ToString(), Encoding.UTF8, MediaTypeNames.Application.Json)
             };
 
             // StatHat doesn't reconize the content-type with a character set
-            request.Content.Headers.ContentType.CharSet = null;
+            request.Content.Headers.ContentType!.CharSet = null;
 
             using var response = await httpClient.SendAsync(request).ConfigureAwait(false);
 
