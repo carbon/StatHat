@@ -1,44 +1,44 @@
-﻿using System.IO;
+﻿using System.Globalization;
+using System.IO;
 using System.Text.Encodings.Web;
 
-namespace StatHat
+namespace StatHat;
+
+internal static class TextWriterExtensions
 {
-    internal static class TextWriterExtensions
+    public static void WriteQuoted(this TextWriter output, string text, bool encode = true)
     {
-        public static void WriteQuoted(this TextWriter output, string text, bool encode = true)
-        {
-            output.Write('"');
+        output.Write('"');
 
-            if (encode)
-            {
-                JavaScriptEncoder.Default.Encode(output, text);
-            }
-            else
-            {
-                output.Write(text);
-            }
-            output.Write('"');
-        }
-
-        public static void WriteJsonProperty(this TextWriter output, string name, string value)
+        if (encode)
         {
-            output.WriteQuoted(name, false);
-            output.Write(':');
-            output.WriteQuoted(value);
+            JavaScriptEncoder.Default.Encode(output, text);
         }
-
-        public static void WriteJsonProperty(this TextWriter output, string name, int value)
+        else
         {
-            output.WriteQuoted(name, false);
-            output.Write(':');
-            output.Write(value);
+            output.Write(text);
         }
+        output.Write('"');
+    }
 
-        public static void WriteJsonProperty(this TextWriter output, string name, double value)
-        {
-            output.WriteQuoted(name, false);
-            output.Write(':');
-            output.Write(value);
-        }
+    public static void WriteJsonProperty(this TextWriter output, string name, string value)
+    {
+        output.WriteQuoted(name, false);
+        output.Write(':');
+        output.WriteQuoted(value);
+    }
+
+    public static void WriteJsonProperty(this TextWriter output, string name, int value)
+    {
+        output.WriteQuoted(name, false);
+        output.Write(':');
+        output.Write(value.ToString(CultureInfo.InvariantCulture));
+    }
+
+    public static void WriteJsonProperty(this TextWriter output, string name, double value)
+    {
+        output.WriteQuoted(name, false);
+        output.Write(':');
+        output.Write(value.ToString(CultureInfo.InvariantCulture));
     }
 }

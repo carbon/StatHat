@@ -2,59 +2,58 @@
 using System.IO;
 using System.Text.Json.Serialization;
 
-namespace StatHat.Models
+namespace StatHat.Models;
+
+public readonly struct EZRequest
 {
-    public readonly struct EZRequest
+    public EZRequest(string key, IEnumerable<EZStat> data)
     {
-        public EZRequest(string key, IEnumerable<EZStat> data)
+        Key = key;
+        Data = data;
+    }
+
+    [JsonPropertyName("ezkey")]
+    public string Key { get; }
+
+    [JsonPropertyName("data")]
+    public IEnumerable<EZStat> Data { get; }
+
+    public override string ToString()
+    {
+        using var writer = new StringWriter();
+
+        WriteTo(writer);
+
+        return writer.ToString();
+    }
+
+    public void WriteTo(TextWriter writer)
+    {
+        writer.Write('{');
+
+        writer.WriteJsonProperty("ezkey", Key);
+        writer.Write(',');
+        writer.WriteQuoted("data");
+        writer.Write(':');
+        writer.Write('[');
+
+        int i = 0;
+
+        foreach (var stat in Data)
         {
-            Key = key;
-            Data = data;
-        }
-
-        [JsonPropertyName("ezkey")]
-        public string Key { get; }
-
-        [JsonPropertyName("data")]
-        public IEnumerable<EZStat> Data { get; }
-
-        public override string ToString()
-        {
-            using var writer = new StringWriter();
-
-            WriteTo(writer);
-
-            return writer.ToString();
-        }
-        
-        public void WriteTo(TextWriter writer)
-        {
-            writer.Write('{');
-
-            writer.WriteJsonProperty("ezkey", Key);
-            writer.Write(',');
-            writer.WriteQuoted("data");
-            writer.Write(':');
-            writer.Write('[');
-
-            int i = 0;
-
-            foreach (var stat in Data)
+            if (i > 0)
             {
-                if (i > 0)
-                {
-                    writer.Write(',');
-                }
-
-                stat.WriteTo(writer);
-
-                i++;
+                writer.Write(',');
             }
 
-            writer.Write(']');
+            stat.WriteTo(writer);
 
-            writer.Write('}');
+            i++;
         }
+
+        writer.Write(']');
+
+        writer.Write('}');
     }
 }
 
