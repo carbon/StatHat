@@ -3,7 +3,7 @@
   <PropertyGroup>
     <AssemblyName>StatHat</AssemblyName>
     <TargetFramework>net6.0</TargetFramework>
-    <Version>2.1.0</Version>
+    <Version>3.0.0</Version>
     <Nullable>enable</Nullable>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     
@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Carbon.Metrics" Version="0.16.0" />
+    <PackageReference Include="Carbon.Metrics" Version="0.17.0" />
   </ItemGroup>
 
 </Project>
