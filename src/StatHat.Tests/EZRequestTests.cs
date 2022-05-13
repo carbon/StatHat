@@ -24,7 +24,7 @@ public class EZRequestTests
     {
         var a = new EZRequest("a", new[] { new EZStat("counter", 0, 1), new EZStat("counter", 0, 2) });
 
-        Assert.Equal(@"{""ezkey"":""a"",""data"":[{""stat"":""counter"",""value"":1},{""stat"":""counter"",""value"":2}]}", a.ToString());
+        Assert.Equal("""{"ezkey":"a","data":[{"stat":"counter","value":1},{"stat":"counter","value":2}]}""", a.ToString());
     }
 
     [Fact]
@@ -32,7 +32,7 @@ public class EZRequestTests
     {
         var a = new EZRequest("a", Stats().ToArray());
 
-        Assert.Equal(@"{""ezkey"":""a"",""data"":[{""stat"":""counter"",""count"":1},{""stat"":""counter"",""count"":2}]}", a.ToString());
+        Assert.Equal("""{"ezkey":"a","data":[{"stat":"counter","count":1},{"stat":"counter","count":2}]}""", a.ToString());
     }
 
     private static IEnumerable<EZStat> Stats()
