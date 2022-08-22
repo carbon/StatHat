@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System;
+using System.Buffers;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Text;
 using System.Text.Json.Serialization;
 
 namespace StatHat.Models;
@@ -18,24 +21,51 @@ public readonly struct EZRequest
     [JsonPropertyName("data")]
     public IEnumerable<EZStat> Data { get; }
 
+    [SkipLocalsInit]
     public override string ToString()
     {
-        using var writer = new StringWriter();
+        var sb = new ValueStringBuilder(stackalloc char[256]);
 
-        WriteTo(writer);
+        WriteTo(ref sb);
 
-        return writer.ToString();
+        return sb.ToString();
     }
 
-    public void WriteTo(TextWriter writer)
-    {
-        writer.Write('{');
 
-        writer.WriteJsonProperty("ezkey", Key);
-        writer.Write(',');
-        writer.WriteQuoted("data");
-        writer.Write(':');
-        writer.Write('[');
+    [SkipLocalsInit]
+    public byte[] SerializeToUtf8Bytes()
+    {
+        var sb = new ValueStringBuilder(stackalloc char[256]);
+
+        try
+        {
+            WriteTo(ref sb);
+
+            var buffer = ArrayPool<byte>.Shared.Rent(Encoding.UTF8.GetMaxByteCount(sb.Length));
+
+            int count = Encoding.UTF8.GetBytes(sb.AsSpan(), buffer);
+
+            var result = buffer.AsSpan(0, count).ToArray();
+
+            ArrayPool<byte>.Shared.Return(buffer);
+
+            return result;
+        }
+        finally
+        {
+            sb.Dispose();
+        }
+    }
+
+    internal void WriteTo(ref ValueStringBuilder sb)
+    {
+        sb.Append('{');
+
+        sb.WriteJsonProperty("ezkey", Key);
+        sb.Append(',');
+        sb.WriteQuoted("data");
+        sb.Append(':');
+        sb.Append('[');
 
         int i = 0;
 
@@ -43,17 +73,17 @@ public readonly struct EZRequest
         {
             if (i > 0)
             {
-                writer.Write(',');
+                sb.Append(',');
             }
 
-            stat.WriteTo(writer);
+            stat.WriteTo(ref sb);
 
             i++;
         }
 
-        writer.Write(']');
+        sb.Append(']');
 
-        writer.Write('}');
+        sb.Append('}');
     }
 }
 

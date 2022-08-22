@@ -1,5 +1,5 @@
-﻿using System.IO;
-using System.Runtime.Serialization;
+﻿using System.Text;
+using System.Text.Json.Serialization;
 
 using Carbon.Metrics;
 
@@ -31,34 +31,36 @@ public readonly struct EZStat
         }
     }
 
-    [DataMember(Name = "stat")]
+    [JsonPropertyName("stat")]
     public string Name { get; }
 
-    [DataMember(Name = "count", EmitDefaultValue = false)]
+    [JsonPropertyName("count")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public int Count { get; }
 
-    [DataMember(Name = "value", EmitDefaultValue = false)]
+    [JsonPropertyName("value")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public double Value { get; }
 
     // TODO: Timestamp (t)
 
-    public void WriteTo(TextWriter writer)
+    internal void WriteTo(ref ValueStringBuilder sb)
     {
-        writer.Write('{');
-        writer.WriteJsonProperty("stat", Name);
+        sb.Append('{');
+        sb.WriteJsonProperty("stat", Name);
 
         if (Count > 0)
         {
-            writer.Write(',');
-            writer.WriteJsonProperty("count", Count);
+            sb.Append(',');
+            sb.WriteJsonProperty("count", Count);
         }
 
         if (Value != 0)
         {
-            writer.Write(',');
-            writer.WriteJsonProperty("value", Value);
+            sb.Append(',');
+            sb.WriteJsonProperty("value", Value);
         }
 
-        writer.Write('}');
+        sb.Append('}');
     }
 }

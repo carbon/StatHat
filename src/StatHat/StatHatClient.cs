@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Mime;
-using System.Text;
 using System.Threading.Tasks;
 
 using Carbon.Metrics;
@@ -64,11 +62,10 @@ public sealed class StatHatClient : IMetricStore
 
         var request = new HttpRequestMessage(HttpMethod.Post, endpoint)
         {
-            Content = new StringContent(ezRequest.ToString(), Encoding.UTF8, MediaTypeNames.Application.Json)
+            Content = new ByteArrayContent(ezRequest.SerializeToUtf8Bytes()) {
+                Headers = { { "Content-Type", "application/json" } }
+            }
         };
-
-        // StatHat doesn't reconize the content-type with a character set
-        request.Content.Headers.ContentType!.CharSet = null;
 
         using var response = await httpClient.SendAsync(request).ConfigureAwait(false);
 
