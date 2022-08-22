@@ -27,6 +27,15 @@ public class EZRequestTests
         Assert.Equal("""{"ezkey":"a","data":[{"stat":"counter","value":1},{"stat":"counter","value":2}]}""", a.ToString());
     }
 
+
+    [Fact]
+    public void SerializeUtf8Bytes()
+    {
+        var a = new EZRequest("a", new[] { new EZStat("counter", 0, 1), new EZStat("counter", 0, 2) });
+
+        Assert.Equal("""{"ezkey":"a","data":[{"stat":"counter","value":1},{"stat":"counter","value":2}]}"""u8.ToArray(), a.SerializeToUtf8Bytes());
+    }
+
     [Fact]
     public void SerializeEnumerable()
     {
