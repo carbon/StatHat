@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Buffers;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -9,7 +8,7 @@ namespace StatHat.Models;
 
 public readonly struct EZRequest
 {
-    public EZRequest(string key, IEnumerable<EZStat> data)
+    public EZRequest(string key, EZStat[] data)
     {
         Key = key;
         Data = data;
@@ -19,7 +18,7 @@ public readonly struct EZRequest
     public string Key { get; }
 
     [JsonPropertyName("data")]
-    public IEnumerable<EZStat> Data { get; }
+    public EZStat[] Data { get; }
 
     [SkipLocalsInit]
     public override string ToString()
@@ -30,7 +29,6 @@ public readonly struct EZRequest
 
         return sb.ToString();
     }
-
 
     [SkipLocalsInit]
     public byte[] SerializeToUtf8Bytes()
@@ -43,9 +41,9 @@ public readonly struct EZRequest
 
             var buffer = ArrayPool<byte>.Shared.Rent(Encoding.UTF8.GetMaxByteCount(sb.Length));
 
-            int count = Encoding.UTF8.GetBytes(sb.AsSpan(), buffer);
+            int byteCount = Encoding.UTF8.GetBytes(sb.AsSpan(), buffer);
 
-            var result = buffer.AsSpan(0, count).ToArray();
+            var result = buffer.AsSpan(0, byteCount).ToArray();
 
             ArrayPool<byte>.Shared.Return(buffer);
 
@@ -67,18 +65,16 @@ public readonly struct EZRequest
         sb.Append(':');
         sb.Append('[');
 
-        int i = 0;
-
-        foreach (var stat in Data)
+        for (uint i = 0; i < (uint)Data.Length; i++)
         {
+            ref readonly EZStat stat = ref Data[i];
+
             if (i > 0)
             {
                 sb.Append(',');
             }
 
             stat.WriteTo(ref sb);
-
-            i++;
         }
 
         sb.Append(']');

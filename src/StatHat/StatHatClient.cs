@@ -26,7 +26,7 @@ public sealed class StatHatClient : IMetricStore
         _key = key;
     }
 
-    public Task<bool> PutAsync(Measurement stat)
+    public ValueTask<bool> PutAsync(Measurement stat)
     {
         return PutAsync(new[] { stat });
     }
@@ -36,7 +36,7 @@ public sealed class StatHatClient : IMetricStore
         return SendAsync(stats);
     }
 
-    public async Task<bool> PutAsync(IEnumerable<Measurement> stats)
+    public async ValueTask<bool> PutAsync(IReadOnlyList<Measurement> stats)
     {
         try
         {
@@ -48,15 +48,19 @@ public sealed class StatHatClient : IMetricStore
         }
     }
 
-    private static IEnumerable<EZStat> Transform(IEnumerable<Measurement> stats)
+    private static EZStat[] Transform(IReadOnlyList<Measurement> measurements)
     {
-        foreach (var stat in stats)
+        var result = new EZStat[measurements.Count];
+
+        for (int i = 0; i < measurements.Count; i++)
         {
-            yield return new EZStat(stat);
+            result[i] = new EZStat(measurements[i]);
         }
+
+        return result;
     }
 
-    private async Task<bool> SendAsync(IEnumerable<EZStat> data)
+    private async Task<bool> SendAsync(EZStat[] data)
     {
         var ezRequest = new EZRequest(_key, data);
 
