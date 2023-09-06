@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Mime;
 using System.Threading.Tasks;
 
 using Carbon.Metrics;
@@ -13,7 +14,7 @@ public sealed class StatHatClient : IMetricStore
 {
     private const string endpoint = "https://api.stathat.com/ez";
 
-    private readonly HttpClient httpClient = new() {
+    private readonly HttpClient _httpClient = new() {
         Timeout = TimeSpan.FromSeconds(2)
     };
 
@@ -21,7 +22,7 @@ public sealed class StatHatClient : IMetricStore
 
     public StatHatClient(string key)
     {
-        ArgumentNullException.ThrowIfNull(key);
+        ArgumentException.ThrowIfNullOrEmpty(key);
 
         _key = key;
     }
@@ -67,11 +68,11 @@ public sealed class StatHatClient : IMetricStore
         var request = new HttpRequestMessage(HttpMethod.Post, endpoint)
         {
             Content = new ByteArrayContent(ezRequest.SerializeToUtf8Bytes()) {
-                Headers = { { "Content-Type", "application/json" } }
+                Headers = { { "Content-Type", MediaTypeNames.Application.Json } }
             }
         };
 
-        using var response = await httpClient.SendAsync(request).ConfigureAwait(false);
+        using var response = await _httpClient.SendAsync(request).ConfigureAwait(false);
 
         return response.IsSuccessStatusCode;
     }
