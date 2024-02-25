@@ -17,7 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Carbon.Extensions" Version="3.3.0" />
+    <PackageReference Include="Carbon.Extensions" Version="3.6.0" />
     <PackageReference Include="Carbon.Metrics" Version="0.18.0" />
   </ItemGroup>
 
