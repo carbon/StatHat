@@ -6,19 +6,13 @@ using System.Text.Json.Serialization;
 
 namespace StatHat.Models;
 
-public readonly struct EZRequest
+public readonly struct EZRequest(string key, EZStat[] data)
 {
-    public EZRequest(string key, EZStat[] data)
-    {
-        Key = key;
-        Data = data;
-    }
-
     [JsonPropertyName("ezkey")]
-    public string Key { get; }
+    public string Key { get; } = key;
 
     [JsonPropertyName("data")]
-    public EZStat[] Data { get; }
+    public EZStat[] Data { get; } = data;
 
     [SkipLocalsInit]
     public override string ToString()
