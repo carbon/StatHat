@@ -1,8 +1,5 @@
-/release
+/artifacts
 /src/.vs
 .DS_Store
 *.suo
-/src/StatHat.Tests/obj
-/src/StatHat.Tests/bin
-/src/StatHat/obj
-/src/StatHat/bin
+*.nupkg
