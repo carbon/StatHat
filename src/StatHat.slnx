@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/Tests/">
+    <Project Path="StatHat.Tests/StatHat.Tests.csproj" />
+  </Folder>
+  <Project Path="StatHat/StatHat.csproj" />
+</Solution>
