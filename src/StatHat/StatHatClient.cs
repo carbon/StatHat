@@ -29,7 +29,7 @@ public sealed class StatHatClient : IMetricStore
 
     public ValueTask<bool> PutAsync(Measurement stat)
     {
-        return PutAsync(new[] { stat });
+        return PutAsync([stat]);
     }
 
     public Task PutAsync(params EZStat[] stats)

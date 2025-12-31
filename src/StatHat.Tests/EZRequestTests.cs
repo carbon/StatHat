@@ -35,7 +35,7 @@ public class EZRequestTests
     {
         var a = new EZRequest("a", new[] { new EZStat("counter", 0, 1), new EZStat("counter", 0, 2) });
 
-        Assert.Equal("""{"ezkey":"a","data":[{"stat":"counter","value":1},{"stat":"counter","value":2}]}"""u8.ToArray(), a.SerializeToUtf8Bytes());
+        Assert.Equal("""{"ezkey":"a","data":[{"stat":"counter","value":1},{"stat":"counter","value":2}]}"""u8, a.SerializeToUtf8Bytes());
     }
 
 
@@ -44,7 +44,7 @@ public class EZRequestTests
     {
         var b = """{"ezkey":"thekey","data":[{"stat":"counter","value":1},{"stat":"counter","value":2}]}"""u8.ToArray();
 
-        var request = new EZRequest("thekey", new[] { new EZStat("counter", 0, 1), new EZStat("counter", 0, 2) });
+        var request = new EZRequest("thekey", [new EZStat("counter", 0, 1), new EZStat("counter", 0, 2)]);
 
         for (int i = 0; i < 1_000_000; i++)
         {
